@@ -18,26 +18,7 @@ var PrivateChannel = (function () {
         return this.serverRequest(socket, options);
     };
     PrivateChannel.prototype.authHost = function (socket) {
-        log_1.Log.info(this.options.authHost.substr(0, this.options.authHost.indexOf('://')) + "://" + socket.request.headers.host.substr(0, socket.request.headers.host.indexOf(':')));
-        var authHosts = (this.options.authHost) ?
-            this.options.authHost : this.options.host;
-        if (typeof authHosts === "string") {
-            authHosts = [authHosts];
-        }
-        var authHostSelected = authHosts[0] || 'http://localhost';
-        if (socket.request.headers.referer) {
-            var referer = url.parse(socket.request.headers.referer);
-            for (var _i = 0, authHosts_1 = authHosts; _i < authHosts_1.length; _i++) {
-                var authHost = authHosts_1[_i];
-                authHostSelected = authHost;
-                if (this.hasMatchingHost(referer, authHost)) {
-                    authHostSelected = referer.protocol + "//" + referer.host;
-                    break;
-                }
-            }
-            ;
-        }
-        return authHostSelected;
+        return this.options.authHost.substr(0, this.options.authHost.indexOf('://')) + "://" + socket.request.headers.host.substr(0, socket.request.headers.host.indexOf(':'));
     };
     PrivateChannel.prototype.hasMatchingHost = function (referer, host) {
         return referer.hostname.substr(referer.hostname.indexOf('.')) === host ||

@@ -18,7 +18,7 @@ var PrivateChannel = (function () {
         return this.serverRequest(socket, options);
     };
     PrivateChannel.prototype.authHost = function (socket) {
-        return this.options.authHost.substr(0, this.options.authHost.indexOf('://')) + "://" + socket.request.headers.host.substr(0, socket.request.headers.host.indexOf(':'));
+        return this.options.authHost.substr(0, this.options.authHost.indexOf('://')) + "://" + (socket.request.headers.host.indexOf(':') > 0 ? socket.request.headers.host.substr(0, socket.request.headers.host.indexOf(':')) : socket.request.headers.host);
     };
     PrivateChannel.prototype.hasMatchingHost = function (referer, host) {
         return referer.hostname.substr(referer.hostname.indexOf('.')) === host ||
